@@ -269,8 +269,10 @@ src/
 
 ## 📞 Contacto y Información del Proyecto
 
-**Desarrollador:** Oscar Noe Espino Aguirre  
-**Número de Cuenta (Universidad):** 202310110465  
+**Desarrolladores:**
+- Oscar Noe Espino Aguirre - Número de Cuenta: 202310110465
+- Juan Rafael Batres Padilla - Número de Cuenta: 202310110503
+
 **Email:** sensei2004@gmail.com  
 **GitHub:** [https://github.com/OsEspino-Sen/OscarEspino-Repositorio](https://github.com/OsEspino-Sen/OscarEspino-Repositorio)
 
