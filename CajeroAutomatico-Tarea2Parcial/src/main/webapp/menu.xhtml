@@ -10,47 +10,85 @@
 </h:head>
 <h:body>
     <div class="container">
-        <div class="header">
-            <h1>Menú Principal</h1>
-            <div class="account-info">
-                <h:outputText value="Cuenta: #{cajeroBean.numeroCuenta}"/>
+        <div class="menu-header">
+            <div class="welcome-section">
+                <h1>Bienvenido</h1>
+                <div class="account-badge">
+                    <span class="account-label">Cuenta:</span>
+                    <span class="account-number">#{cajeroBean.numeroCuenta}</span>
+                </div>
             </div>
         </div>
         
         <h:messages styleClass="messages" errorClass="error" infoClass="info"/>
         
-        <div class="menu-grid">
-            <h:form>
-                <div class="menu-item">
-                    <h:commandButton value="Consultar Saldo" action="#{cajeroBean.consultarSaldo}" 
-                                   styleClass="button primary"/>
-                </div>
-                <div class="menu-item">
-                    <h:button value="Retirar Efectivo" outcome="retiro" styleClass="button primary"/>
-                </div>
-                <div class="menu-item">
-                    <h:button value="Depositar" outcome="deposito" styleClass="button primary"/>
-                </div>
-                <div class="menu-item">
-                    <h:button value="Transferir" outcome="transferencia" styleClass="button primary"/>
-                </div>
-                <div class="menu-item">
-                    <h:button value="Historial" outcome="historial" styleClass="button secondary"/>
-                </div>
-                <div class="menu-item">
-                    <h:button value="Ayuda" outcome="ayuda" styleClass="button secondary"/>
+        <h:form id="menuForm">
+            <div class="menu-cards">
+                <div class="menu-card primary-card">
+                    <div class="card-icon">💰</div>
+                    <h3>Consultar Saldo</h3>
+                    <p>Ver su saldo actual</p>
+                    <h:commandButton value="Ver Saldo" action="#{cajeroBean.consultarSaldo}" 
+                                   styleClass="card-button"/>
                 </div>
                 
-                <div class="menu-item" rendered="#{cajeroBean.esCuentaBancaria()}">
-                    <h:button value="Agregar Usuario" outcome="registrar" styleClass="button bank-button"/>
+                <div class="menu-card primary-card">
+                    <div class="card-icon">💵</div>
+                    <h3>Retirar Efectivo</h3>
+                    <p>Retire dinero de su cuenta</p>
+                    <h:button value="Retirar" outcome="retiro" styleClass="card-button"/>
                 </div>
-
-                <div class="menu-item logout">
-                    <h:commandButton value="Cerrar Sesión" action="#{cajeroBean.cerrarSesion}" 
-                                   styleClass="button danger"/>
+                
+                <div class="menu-card primary-card">
+                    <div class="card-icon">📥</div>
+                    <h3>Depositar</h3>
+                    <p>Deposite dinero en su cuenta</p>
+                    <h:button value="Depositar" outcome="deposito" styleClass="card-button"/>
                 </div>
-            </h:form>
-        </div>
+                
+                <div class="menu-card primary-card">
+                    <div class="card-icon">🔄</div>
+                    <h3>Transferir</h3>
+                    <p>Transfiera a otra cuenta</p>
+                    <h:button value="Transferir" outcome="transferencia" styleClass="card-button"/>
+                </div>
+                
+                <div class="menu-card secondary-card">
+                    <div class="card-icon">📊</div>
+                    <h3>Historial</h3>
+                    <p>Ver transacciones</p>
+                    <h:button value="Ver Historial" outcome="historial" styleClass="card-button"/>
+                </div>
+                
+                <div class="menu-card secondary-card">
+                    <div class="card-icon">❓</div>
+                    <h3>Ayuda</h3>
+                    <p>Información de ayuda</p>
+                    <h:button value="Ver Ayuda" outcome="ayuda" styleClass="card-button"/>
+                </div>
+                
+                <h:panelGroup rendered="#{cajeroBean.esCuentaBancaria()}">
+                    <div class="menu-card admin-card">
+                        <div class="card-icon">👤</div>
+                        <h3>Agregar Usuario</h3>
+                        <p>Registrar nuevo usuario</p>
+                        <h:button value="Agregar" outcome="registrar" styleClass="card-button"/>
+                    </div>
+                    
+                    <div class="menu-card admin-card">
+                        <div class="card-icon">⚙️</div>
+                        <h3>Gestionar Usuarios</h3>
+                        <p>Administrar usuarios</p>
+                        <h:button value="Gestionar" outcome="gestionar" styleClass="card-button"/>
+                    </div>
+                </h:panelGroup>
+            </div>
+            
+            <div class="menu-footer">
+                <h:commandButton value="Cerrar Sesión" action="#{cajeroBean.cerrarSesion}" 
+                               styleClass="logout-button"/>
+            </div>
+        </h:form>
     </div>
 </h:body>
 </html>

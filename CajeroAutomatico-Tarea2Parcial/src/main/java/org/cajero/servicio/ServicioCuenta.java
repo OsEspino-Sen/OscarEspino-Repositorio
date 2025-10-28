@@ -5,7 +5,9 @@ import org.cajero.model.Cuenta;
 import org.cajero.model.Transaccion;
 import org.cajero.model.TipoTransaccion;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -20,6 +22,9 @@ public class ServicioCuenta {
     }
 
     private void inicializarCuentasPrueba() {
+        // Cuenta bancaria con permisos especiales
+        cuentas.put("1234567810", new Cuenta("1234567810", "9999", 0.0));
+        // Cuentas de ejemplo
         cuentas.put("12345678", new Cuenta("12345678", "1234", 1000.0));
         cuentas.put("87654321", new Cuenta("87654321", "4321", 2000.0));
     }
@@ -119,17 +124,57 @@ public class ServicioCuenta {
         return cuentas.get(numeroCuenta);
     }
     
+    public List<Cuenta> obtenerTodasLasCuentas() {
+        return new ArrayList<>(cuentas.values());
+    }
+    
+    public void eliminarCuenta(String numeroCuenta) {
+        if (!cuentas.containsKey(numeroCuenta)) {
+            throw new IllegalArgumentException("La cuenta no existe");
+        }
+        if ("1234567810".equals(numeroCuenta)) {
+            throw new IllegalArgumentException("No se puede eliminar la cuenta bancaria");
+        }
+        cuentas.remove(numeroCuenta);
+    }
+    
+    public void actualizarPin(String numeroCuenta, String nuevoPin) {
+        Cuenta cuenta = cuentas.get(numeroCuenta);
+        if (cuenta == null) {
+            throw new IllegalArgumentException("La cuenta no existe");
+        }
+        if (nuevoPin == null || nuevoPin.length() != 4) {
+            throw new IllegalArgumentException("El PIN debe tener 4 dígitos");
+        }
+        if (!nuevoPin.matches("[0-9]{4}")) {
+            throw new IllegalArgumentException("El PIN debe contener solo dígitos");
+        }
+        // Como no hay setter para PIN en el modelo, necesitamos agregarlo
+        cuenta.setPin(nuevoPin);
+    }
+    
+    public void actualizarSaldo(String numeroCuenta, double nuevoSaldo) {
+        Cuenta cuenta = cuentas.get(numeroCuenta);
+        if (cuenta == null) {
+            throw new IllegalArgumentException("La cuenta no existe");
+        }
+        if (nuevoSaldo < 0) {
+            throw new IllegalArgumentException("El saldo no puede ser negativo");
+        }
+        cuenta.setSaldo(nuevoSaldo);
+    }
+    
     public void registrarCuenta(String cuentaBancaria, String nuevoNumeroCuenta, String nuevoPin) {
         // Solo la cuenta bancaria 1234567810 puede registrar usuarios
         if (!"1234567810".equals(cuentaBancaria)) {
             throw new IllegalArgumentException("No tiene permisos para registrar usuarios");
         }
         
-        if (nuevoNumeroCuenta == null || nuevoNumeroCuenta.length() != 8) {
-            throw new IllegalArgumentException("El número de cuenta debe tener 8 dígitos");
+        if (nuevoNumeroCuenta == null || (nuevoNumeroCuenta.length() != 8 && nuevoNumeroCuenta.length() != 10)) {
+            throw new IllegalArgumentException("El número de cuenta debe tener 8 o 10 dígitos");
         }
         
-        if (!nuevoNumeroCuenta.matches("[0-9]{8}")) {
+        if (!nuevoNumeroCuenta.matches("[0-9]{8}|[0-9]{10}")) {
             throw new IllegalArgumentException("El número de cuenta debe contener solo dígitos");
         }
         

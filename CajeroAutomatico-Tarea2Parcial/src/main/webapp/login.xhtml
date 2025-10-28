@@ -9,13 +9,9 @@
     </h:head>
     <h:body>
         <div class="container">
-            <h1>Inicio de Sesión</h1>
-            
-            <div class="info-banner">
-                <p class="bank-message">
-                    <strong>Importante:</strong> Solo el banco puede agregar nuevos usuarios al sistema. 
-                    Para poder acceder, visite su banco más cercano.
-                </p>
+            <div class="login-header">
+                <h1>Bienvenido al Cajero Automático</h1>
+                <p class="subtitle">Ingrese sus credenciales para continuar</p>
             </div>
             
             <div class="form-container">
@@ -26,9 +22,9 @@
                                    value="#{cajeroBean.numeroCuenta}" 
                                    required="true"
                                    requiredMessage="Por favor, ingrese su número de cuenta"
-                                   validatorMessage="El número de cuenta debe tener exactamente 8 dígitos">
-                            <f:validateLength minimum="8" maximum="8"/>
-                            <f:validateRegex pattern="[0-9]{8}"/>
+                                   validatorMessage="El número de cuenta debe tener 8 o 10 dígitos"
+                                   maxlength="10">
+                            <f:validateRegex pattern="[0-9]{8}|[0-9]{10}"/>
                             <f:ajax event="blur" render="numeroCuentaError"/>
                         </h:inputText>
                         <h:message for="numeroCuenta" id="numeroCuentaError" styleClass="input-error-message"/>
@@ -40,8 +36,8 @@
                                      value="#{cajeroBean.pin}" 
                                      required="true"
                                      requiredMessage="Por favor, ingrese su PIN"
-                                     validatorMessage="El PIN debe tener exactamente 4 dígitos">
-                            <f:validateLength minimum="4" maximum="4"/>
+                                     validatorMessage="El PIN debe tener exactamente 4 dígitos"
+                                     maxlength="4">
                             <f:validateRegex pattern="[0-9]{4}"/>
                             <f:ajax event="blur" render="pinError"/>
                         </h:inputSecret>
@@ -64,7 +60,17 @@
                 </h:form>
             </div>
             
-            <div class="help-text">
+            <div class="login-footer-info">
+                <div class="info-box">
+                    <div class="info-icon">ℹ️</div>
+                    <div class="info-content">
+                        <h3>Información importante</h3>
+                        <p>Solo el banco puede agregar nuevos usuarios al sistema. Para poder acceder, visite su banco más cercano.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="help-link">
                 <p>¿Necesita ayuda? Haga clic 
                     <h:link value="aquí" outcome="ayuda"/> 
                     para ver instrucciones de uso.</p>

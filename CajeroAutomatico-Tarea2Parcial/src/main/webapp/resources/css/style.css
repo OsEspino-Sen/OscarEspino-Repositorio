@@ -33,7 +33,8 @@ body {
     margin: 0;
     padding: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    background-color: var(--background-color);
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
     color: var(--text-color);
     transition: all 0.3s ease;
 }
@@ -46,6 +47,7 @@ body {
     box-shadow: 0 4px 20px var(--shadow-color);
     border-radius: 12px;
 }
+
 
 .header {
     margin-bottom: 2rem;
@@ -66,6 +68,23 @@ h1 {
     color: var(--primary-color);
     text-align: center;
     margin-bottom: 2rem;
+}
+
+/* Override para elementos específicos del menú */
+.container .menu-header h1 {
+    color: white !important;
+    font-size: 2.5rem !important;
+    font-weight: 700 !important;
+    margin-bottom: 1rem !important;
+    text-align: center;
+}
+
+.container .login-header h1 {
+    font-size: 2.2rem !important;
+    font-weight: 700 !important;
+    color: var(--primary-color) !important;
+    margin-bottom: 0.5rem !important;
+    text-align: center;
 }
 
 h2 {
@@ -318,16 +337,145 @@ h2 {
     margin-bottom: 1rem;
 }
 
-/* Menú Grid */
-.menu-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
-    margin: 2rem 0;
+/* Menú Header */
+.menu-header {
+    margin-bottom: 2rem !important;
+    padding: 2rem !important;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4) !important;
 }
 
-.menu-item {
+.welcome-section {
     text-align: center;
+}
+
+.account-badge {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    display: inline-block;
+}
+
+.account-label {
+    color: white;
+    font-weight: 600;
+    margin-right: 0.5rem;
+}
+
+.account-number {
+    color: white;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+/* Menu Cards */
+.menu-cards {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+    gap: 1.5rem !important;
+    margin: 2rem 0 !important;
+}
+
+.menu-card {
+    background: var(--surface-color) !important;
+    border-radius: 12px !important;
+    padding: 2rem !important;
+    text-align: center !important;
+    box-shadow: 0 4px 10px var(--shadow-color) !important;
+    transition: all 0.3s ease !important;
+    border: 2px solid transparent !important;
+}
+
+.menu-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px var(--shadow-hover);
+}
+
+.primary-card {
+    border-top: 4px solid var(--primary-color) !important;
+}
+
+.primary-card:hover {
+    border-color: var(--primary-color) !important;
+}
+
+.secondary-card {
+    border-top: 4px solid var(--secondary-color) !important;
+}
+
+.secondary-card:hover {
+    border-color: var(--secondary-color) !important;
+}
+
+.admin-card {
+    border-top: 4px solid #2e7d32 !important;
+}
+
+.admin-card:hover {
+    border-color: #2e7d32 !important;
+}
+
+.card-icon {
+    font-size: 3rem !important;
+    margin-bottom: 1rem !important;
+}
+
+.menu-card h3 {
+    color: var(--text-color) !important;
+    font-size: 1.3rem !important;
+    margin-bottom: 0.5rem !important;
+    font-weight: 600 !important;
+}
+
+.menu-card p {
+    color: var(--text-secondary) !important;
+    font-size: 0.95rem !important;
+    margin-bottom: 1.5rem !important;
+}
+
+.card-button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+    border: none !important;
+    padding: 0.75rem 2rem !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    width: 100% !important;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3) !important;
+}
+
+.card-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.5);
+}
+
+.menu-footer {
+    text-align: center;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 2px solid var(--border-color);
+}
+
+.logout-button {
+    background: linear-gradient(135deg, #d32f2f 0%, #c62828 100%);
+    color: white;
+    border: none;
+    padding: 1rem 3rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(211, 47, 47, 0.3);
+}
+
+.logout-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(211, 47, 47, 0.5);
 }
 
 /* Tabla de transacciones */
@@ -383,19 +531,111 @@ h2 {
     padding-left: 1.5rem;
 }
 
+.login-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+/* Login Footer Info */
+.login-footer-info {
+    margin-top: 3rem;
+    padding-top: 2rem;
+}
+
+.info-box {
+    background: linear-gradient(135deg, #fff3cd 0%, #ffe082 100%);
+    border-left: 5px solid #fbc02d;
+    border-radius: 12px;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    box-shadow: 0 4px 15px rgba(251, 192, 45, 0.2);
+    margin-bottom: 1rem;
+}
+
+.info-icon {
+    font-size: 3rem;
+    flex-shrink: 0;
+}
+
+.info-content h3 {
+    margin: 0 0 0.5rem 0;
+    color: #856404;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.info-content p {
+    margin: 0;
+    color: #856404;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.help-link {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-top: 1rem;
+}
+
+.help-link a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.help-link a:hover {
+    text-decoration: underline;
+}
+
 /* Responsive */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     .container {
         margin: 1rem;
-        padding: 1rem;
+        padding: 1.5rem;
     }
-
-    .menu-grid {
+    
+    .menu-header {
+        padding: 1.5rem;
+    }
+    
+    .menu-header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .menu-cards {
         grid-template-columns: 1fr;
+        gap: 1rem;
     }
-
+    
+    .menu-card {
+        padding: 1.5rem;
+    }
+    
+    .info-box {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.5rem;
+    }
+    
+    .info-icon {
+        font-size: 2.5rem;
+    }
+    
     .button {
         width: 100%;
         margin: 0.5rem 0;
+    }
+    
+    .logout-button {
+        width: 100%;
     }
 }

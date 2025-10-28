@@ -22,13 +22,14 @@
         <div class="form-container">
             <h:form>
                 <div class="form-group">
-                    <h:outputLabel for="cuentaDestino" value="Cuenta destino:"/>
-                    <h:inputText id="cuentaDestino" value="#{cajeroBean.cuentaDestino}" 
+                    <h:outputLabel for="cuentaDestino" value="Cuenta destino (8 o 10 dígitos):"/>
+                    <h:inputText id="cuentaDestino" 
+                               value="#{cajeroBean.cuentaDestino}" 
                                required="true"
                                requiredMessage="Por favor, ingrese la cuenta destino"
-                               validatorMessage="La cuenta destino debe tener exactamente 8 dígitos numéricos">
-                        <f:validateLength minimum="8" maximum="8"/>
-                        <f:validateRegex pattern="[0-9]{8}"/>
+                               validatorMessage="La cuenta destino debe tener 8 o 10 dígitos"
+                               maxlength="10">
+                        <f:validateRegex pattern="[0-9]{8}|[0-9]{10}"/>
                         <f:ajax event="blur" render="cuentaDestinoError"/>
                     </h:inputText>
                     <h:message for="cuentaDestino" id="cuentaDestinoError" styleClass="input-error-message"/>

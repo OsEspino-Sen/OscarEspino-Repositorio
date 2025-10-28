@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Cajero Automático - Registrar Usuario</title>
+    <h:outputStylesheet library="css" name="style.css"/>
+</h:head>
+<h:body>
+    <div class="container">
+        <h1>Registrar Nuevo Usuario</h1>
+        
+        <h:panelGroup rendered="#{not cajeroBean.esCuentaBancaria()}">
+            <div class="access-denied">
+                <h2 style="color: var(--error-color);">Acceso Denegado</h2>
+                <p>No tiene permisos para registrar usuarios. Solo el personal autorizado del banco puede realizar esta operación.</p>
+                <div class="action-buttons">
+                    <h:form>
+                        <h:button value="Volver al Menú" outcome="menu" styleClass="button secondary"/>
+                    </h:form>
+                </div>
+            </div>
+        </h:panelGroup>
+        
+        <h:panelGroup rendered="#{cajeroBean.esCuentaBancaria()}">
+            <div class="form-container">
+            <h:form>
+                <div class="form-group">
+                    <h:outputLabel for="nuevoNumeroCuenta" value="Número de Cuenta (8 o 10 dígitos):"/>
+                    <h:inputText id="nuevoNumeroCuenta" 
+                               value="#{cajeroBean.nuevoNumeroCuenta}" 
+                               required="true"
+                               requiredMessage="Por favor, ingrese el número de cuenta"
+                               validatorMessage="El número de cuenta debe tener 8 o 10 dígitos"
+                               maxlength="10">
+                        <f:validateRegex pattern="[0-9]{8}|[0-9]{10}"/>
+                        <f:ajax event="blur" render="nuevoNumeroCuentaError"/>
+                    </h:inputText>
+                    <h:message for="nuevoNumeroCuenta" id="nuevoNumeroCuentaError" styleClass="input-error-message"/>
+                </div>
+
+                <div class="form-group">
+                    <h:outputLabel for="nuevoPin" value="PIN (4 dígitos):"/>
+                    <h:inputSecret id="nuevoPin" 
+                               value="#{cajeroBean.nuevoPin}" 
+                               required="true"
+                               requiredMessage="Por favor, ingrese el PIN"
+                               validatorMessage="El PIN debe tener exactamente 4 dígitos"
+                               maxlength="4">
+                        <f:validateRegex pattern="[0-9]{4}"/>
+                        <f:ajax event="blur" render="nuevoPinError"/>
+                    </h:inputSecret>
+                    <h:message for="nuevoPin" id="nuevoPinError" styleClass="input-error-message"/>
+                </div>
+
+                <div class="form-actions">
+                    <h:commandButton value="Registrar Usuario" action="#{cajeroBean.registrarNuevaCuenta}" 
+                                   styleClass="button bank-button"
+                                   onclick="return confirm('¿Está seguro que desea registrar este usuario?')"/>
+                    <h:button value="Cancelar" outcome="menu" styleClass="button secondary"/>
+                </div>
+            </h:form>
+        </div>
+        </h:panelGroup>
+    </div>
+    
+    <style>
+        .access-denied {
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+            border-left: 5px solid var(--error-color);
+            padding: 3rem 2rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(211, 47, 47, 0.2);
+            margin: 2rem 0;
+        }
+        
+        .access-denied h2 {
+            margin-bottom: 1rem;
+        }
+        
+        .access-denied p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+    </style>
+</h:body>
+</html>
+

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Cajero Automático - Gestionar Usuarios</title>
+    <h:outputStylesheet library="css" name="style.css"/>
+</h:head>
+<h:body>
+    <div class="container">
+        <h1>Gestión de Usuarios</h1>
+        
+        <h:panelGroup rendered="#{not cajeroBean.esCuentaBancaria()}">
+            <div class="access-denied">
+                <h2 style="color: var(--error-color);">Acceso Denegado</h2>
+                <p>No tiene permisos para gestionar usuarios. Solo el personal autorizado del banco puede realizar esta operación.</p>
+                <div class="action-buttons">
+                    <h:form>
+                        <h:button value="Volver al Menú" outcome="menu" styleClass="button secondary"/>
+                    </h:form>
+                </div>
+            </div>
+        </h:panelGroup>
+        
+        <h:panelGroup rendered="#{cajeroBean.esCuentaBancaria()}">
+            <div class="admin-info">
+                <p><strong>Administrador:</strong> #{cajeroBean.numeroCuenta}</p>
+            </div>
+            
+            <h:messages globalOnly="true" styleClass="messages" errorClass="error" infoClass="info"/>
+            
+            <div class="users-list">
+            <h:dataTable value="#{cajeroBean.obtenerTodasLasCuentas()}" var="cuenta"
+                       styleClass="users-table" 
+                       rowClasses="user-row-odd,user-row-even"
+                       headerClass="table-header">
+                
+                <h:column>
+                    <f:facet name="header">Número de Cuenta</f:facet>
+                    <h:outputText value="#{cuenta.numeroCuenta}"/>
+                </h:column>
+                
+                <h:column>
+                    <f:facet name="header">Saldo</f:facet>
+                    <h:outputText value="#{cuenta.saldo}">
+                        <f:convertNumber type="currency" currencySymbol="$"/>
+                    </h:outputText>
+                </h:column>
+                
+                <h:column>
+                    <f:facet name="header">Transacciones</f:facet>
+                    <h:outputText value="#{cuenta.transacciones.size()}"/>
+                </h:column>
+                
+                <h:column>
+                    <f:facet name="header">Acciones</f:facet>
+                    <h:panelGroup rendered="#{cuenta.numeroCuenta != '1234567810'}">
+                        <h:form>
+                            <h:commandLink value="Eliminar" 
+                                         action="#{cajeroBean.eliminarUsuario}"
+                                         styleClass="action-link danger"
+                                         onclick="return confirm('¿Está seguro que desea eliminar la cuenta #{cuenta.numeroCuenta}?')">
+                                <f:setPropertyActionListener value="#{cuenta.numeroCuenta}" target="#{cajeroBean.cuentaDestino}"/>
+                            </h:commandLink>
+                        </h:form>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{cuenta.numeroCuenta == '1234567810'}">
+                        <span class="protected">Protegida</span>
+                    </h:panelGroup>
+                </h:column>
+            </h:dataTable>
+            </div>
+            
+            <div class="action-buttons">
+                <h:form>
+                    <h:button value="Volver al Menú" outcome="menu" styleClass="button secondary"/>
+                    <h:commandButton value="Cerrar Sesión" action="#{cajeroBean.cerrarSesion}" 
+                                   styleClass="button danger"/>
+                </h:form>
+            </div>
+        </h:panelGroup>
+    </div>
+    
+    <style>
+        .access-denied {
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+            border-left: 5px solid var(--error-color);
+            padding: 3rem 2rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(211, 47, 47, 0.2);
+            margin: 2rem 0;
+        }
+        
+        .access-denied h2 {
+            margin-bottom: 1rem;
+        }
+        
+        .access-denied p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+        
+        .admin-info {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .users-table {
+            width: 100%;
+            margin-top: 1rem;
+            box-shadow: 0 2px 10px var(--shadow-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .user-row-odd td {
+            background-color: var(--surface-color);
+        }
+        
+        .user-row-even td {
+            background-color: var(--background-color);
+        }
+        
+        .button.small {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+        
+        .action-link {
+            color: var(--error-color);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 0 0.5rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+        
+        .action-link.danger {
+            color: var(--error-color);
+        }
+        
+        .action-link:hover {
+            background-color: var(--error-color);
+            color: white;
+        }
+        
+        .protected {
+            color: var(--success-color);
+            font-weight: 600;
+            font-style: italic;
+        }
+    </style>
+</h:body>
+</html>
+

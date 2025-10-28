@@ -24,6 +24,10 @@ public class Cuenta {
     public String getPin() {
         return pin;
     }
+    
+    public void setPin(String pin) {
+        this.pin = pin;
+    }
 
     public double getSaldo() {
         return saldo;

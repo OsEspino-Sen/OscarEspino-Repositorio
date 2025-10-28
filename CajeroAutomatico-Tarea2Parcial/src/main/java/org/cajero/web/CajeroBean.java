@@ -139,6 +139,76 @@ public class CajeroBean implements Serializable {
         return cuentaActual != null && "1234567810".equals(cuentaActual.getNumeroCuenta());
     }
     
+    // Obtener todas las cuentas del sistema
+    public List<Cuenta> obtenerTodasLasCuentas() {
+        if (!esCuentaBancaria()) {
+            return null;
+        }
+        return servicioCuenta.obtenerTodasLasCuentas();
+    }
+    
+    // Eliminar usuario
+    public String eliminarUsuario() {
+        try {
+            if (!esCuentaBancaria()) {
+                FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No tiene permisos"));
+                return null;
+            }
+            servicioCuenta.eliminarCuenta(cuentaDestino);
+            FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Usuario eliminado exitosamente"));
+            cuentaDestino = null;
+            return "gestionar?faces-redirect=true";
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+            return null;
+        }
+    }
+    
+    // Actualizar PIN de usuario
+    public String actualizarPinUsuario() {
+        try {
+            if (!esCuentaBancaria()) {
+                FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No tiene permisos"));
+                return null;
+            }
+            servicioCuenta.actualizarPin(cuentaDestino, pin);
+            FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "PIN actualizado exitosamente"));
+            cuentaDestino = null;
+            pin = null;
+            return "gestionar?faces-redirect=true";
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+            return null;
+        }
+    }
+    
+    // Actualizar saldo de usuario
+    public String actualizarSaldoUsuario() {
+        try {
+            if (!esCuentaBancaria()) {
+                FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No tiene permisos"));
+                return null;
+            }
+            servicioCuenta.actualizarSaldo(cuentaDestino, monto);
+            FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Saldo actualizado exitosamente"));
+            cuentaDestino = null;
+            monto = 0;
+            return "gestionar?faces-redirect=true";
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+            return null;
+        }
+    }
+    
     // Registrar nueva cuenta
     public String registrarNuevaCuenta() {
         try {
