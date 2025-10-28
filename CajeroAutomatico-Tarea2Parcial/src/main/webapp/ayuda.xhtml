@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+    <title>Cajero Automático - Ayuda</title>
+    <h:outputStylesheet library="css" name="style.css"/>
+</h:head>
+<h:body>
+    <div class="container">
+        <h1>Ayuda del Sistema</h1>
+        
+        <div class="help-section">
+            <h2>Cómo Iniciar Sesión</h2>
+            <p>Para acceder al sistema:</p>
+            <ul>
+                <li>Ingrese su número de cuenta (8 dígitos)</li>
+                <li>Ingrese su PIN (4 dígitos)</li>
+                <li>Presione el botón "Ingresar"</li>
+            </ul>
+            <p>Si no tiene una cuenta o ha olvidado sus credenciales, por favor contacte a un representante del banco.</p>
+        </div>
+
+        <div class="help-section">
+            <h2>Operaciones Disponibles</h2>
+            
+            <h3>Consulta de Saldo</h3>
+            <p>Muestra su saldo actual sin realizar ningún cargo.</p>
+            
+            <h3>Retiro de Efectivo</h3>
+            <p>Para retirar dinero:</p>
+            <ul>
+                <li>Seleccione "Retirar Efectivo" en el menú</li>
+                <li>Ingrese el monto a retirar</li>
+                <li>Confirme la operación</li>
+            </ul>
+            <p>Nota: No puede retirar más dinero del disponible en su cuenta.</p>
+            
+            <h3>Depósito</h3>
+            <p>Para depositar dinero:</p>
+            <ul>
+                <li>Seleccione "Depositar" en el menú</li>
+                <li>Ingrese el monto a depositar</li>
+                <li>Confirme la operación</li>
+            </ul>
+            
+            <h3>Transferencia</h3>
+            <p>Para transferir dinero:</p>
+            <ul>
+                <li>Seleccione "Transferir" en el menú</li>
+                <li>Ingrese el número de cuenta destino</li>
+                <li>Ingrese el monto a transferir</li>
+                <li>Confirme la operación</li>
+            </ul>
+        </div>
+        
+        <div class="help-section">
+            <h2>Seguridad</h2>
+            <ul>
+                <li>No comparta su PIN con nadie</li>
+                <li>Cierre sesión al terminar sus operaciones</li>
+                <li>Verifique que los montos sean correctos antes de confirmar operaciones</li>
+                <li>No utilice el cajero si observa algo sospechoso</li>
+                <li>Guarde sus comprobantes hasta verificar las transacciones</li>
+            </ul>
+        </div>
+
+        <div class="action-buttons">
+            <h:form>
+                <h:button value="Volver al Menú" outcome="menu" styleClass="button secondary"
+                         rendered="#{cajeroBean.cuentaActual != null}"/>
+                <h:button value="Volver al Login" outcome="login" styleClass="button primary"
+                         rendered="#{cajeroBean.cuentaActual == null}"/>
+            </h:form>
+        </div>
+    </div>
+</h:body>
+</html>

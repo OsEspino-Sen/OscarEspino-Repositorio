@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+    <title>Cajero Automático - Retiro de Efectivo</title>
+    <h:outputStylesheet library="css" name="style.css"/>
+</h:head>
+<h:body>
+    <div class="container">
+        <h1>Retiro de Efectivo</h1>
+        
+        <div class="balance-info">
+            <h:outputText value="Saldo disponible: "/>
+            <h:outputText value="#{cajeroBean.cuentaActual.saldo}">
+                <f:convertNumber type="currency" currencySymbol="$"/>
+            </h:outputText>
+        </div>
+        
+        <div class="form-container">
+            <h:form>
+                <div class="form-group">
+                    <h:outputLabel for="monto" value="Monto a retirar:"/>
+                    <h:inputText id="monto" value="#{cajeroBean.monto}" 
+                               required="true"
+                               requiredMessage="Por favor, ingrese el monto a retirar"
+                               validatorMessage="El monto debe ser mayor a 0 y no exceder el saldo disponible">
+                        <f:validateDoubleRange minimum="1" maximum="#{cajeroBean.cuentaActual.saldo}"/>
+                        <f:convertNumber type="number" pattern="#0.00"/>
+                        <f:ajax event="blur" render="montoError"/>
+                    </h:inputText>
+                    <h:message for="monto" id="montoError" styleClass="input-error-message"/>
+                </div>
+
+                <div class="form-actions">
+                    <h:commandButton value="Retirar" action="#{cajeroBean.retirar}" 
+                                   styleClass="button primary"
+                                   onclick="return confirm('¿Está seguro que desea retirar este monto?')"/>
+                    <h:button value="Cancelar" outcome="menu" styleClass="button secondary"/>
+                </div>
+            </h:form>
+        </div>
+    </div>
+</h:body>
+</html>

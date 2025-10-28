@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+    <title>Cajero Automático - Menú Principal</title>
+    <h:outputStylesheet library="css" name="style.css"/>
+</h:head>
+<h:body>
+    <div class="container">
+        <div class="header">
+            <h1>Menú Principal</h1>
+            <div class="account-info">
+                <h:outputText value="Cuenta: #{cajeroBean.numeroCuenta}"/>
+            </div>
+        </div>
+        
+        <h:messages styleClass="messages" errorClass="error" infoClass="info"/>
+        
+        <div class="menu-grid">
+            <h:form>
+                <div class="menu-item">
+                    <h:commandButton value="Consultar Saldo" action="#{cajeroBean.consultarSaldo}" 
+                                   styleClass="button primary"/>
+                </div>
+                <div class="menu-item">
+                    <h:button value="Retirar Efectivo" outcome="retiro" styleClass="button primary"/>
+                </div>
+                <div class="menu-item">
+                    <h:button value="Depositar" outcome="deposito" styleClass="button primary"/>
+                </div>
+                <div class="menu-item">
+                    <h:button value="Transferir" outcome="transferencia" styleClass="button primary"/>
+                </div>
+                <div class="menu-item">
+                    <h:button value="Historial" outcome="historial" styleClass="button secondary"/>
+                </div>
+                <div class="menu-item">
+                    <h:button value="Ayuda" outcome="ayuda" styleClass="button secondary"/>
+                </div>
+                
+                <div class="menu-item" rendered="#{cajeroBean.esCuentaBancaria()}">
+                    <h:button value="Agregar Usuario" outcome="registrar" styleClass="button bank-button"/>
+                </div>
+
+                <div class="menu-item logout">
+                    <h:commandButton value="Cerrar Sesión" action="#{cajeroBean.cerrarSesion}" 
+                                   styleClass="button danger"/>
+                </div>
+            </h:form>
+        </div>
+    </div>
+</h:body>
+</html>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+    <title>Cajero Automático - Transferencia</title>
+    <h:outputStylesheet library="css" name="style.css"/>
+</h:head>
+<h:body>
+    <div class="container">
+        <h1>Transferencia</h1>
+        
+        <div class="balance-info">
+            <h:outputText value="Saldo disponible: "/>
+            <h:outputText value="#{cajeroBean.cuentaActual.saldo}">
+                <f:convertNumber type="currency" currencySymbol="$"/>
+            </h:outputText>
+        </div>
+        
+        <div class="form-container">
+            <h:form>
+                <div class="form-group">
+                    <h:outputLabel for="cuentaDestino" value="Cuenta destino:"/>
+                    <h:inputText id="cuentaDestino" value="#{cajeroBean.cuentaDestino}" 
+                               required="true"
+                               requiredMessage="Por favor, ingrese la cuenta destino"
+                               validatorMessage="La cuenta destino debe tener exactamente 8 dígitos numéricos">
+                        <f:validateLength minimum="8" maximum="8"/>
+                        <f:validateRegex pattern="[0-9]{8}"/>
+                        <f:ajax event="blur" render="cuentaDestinoError"/>
+                    </h:inputText>
+                    <h:message for="cuentaDestino" id="cuentaDestinoError" styleClass="input-error-message"/>
+                </div>
+
+                <div class="form-group">
+                    <h:outputLabel for="monto" value="Monto a transferir:"/>
+                    <h:inputText id="monto" value="#{cajeroBean.monto}" 
+                               required="true"
+                               requiredMessage="Por favor, ingrese el monto a transferir"
+                               validatorMessage="El monto debe ser mayor a 0 y no exceder el saldo disponible">
+                        <f:validateDoubleRange minimum="1" maximum="#{cajeroBean.cuentaActual.saldo}"/>
+                        <f:convertNumber type="number" pattern="#0.00"/>
+                        <f:ajax event="blur" render="montoError"/>
+                    </h:inputText>
+                    <h:message for="monto" id="montoError" styleClass="input-error-message"/>
+                </div>
+
+                <div class="form-actions">
+                    <h:commandButton value="Transferir" action="#{cajeroBean.transferir}" 
+                                   styleClass="button primary"
+                                   onclick="return confirm('¿Está seguro que desea transferir este monto?')"/>
+                    <h:button value="Cancelar" outcome="menu" styleClass="button secondary"/>
+                </div>
+            </h:form>
+        </div>
+    </div>
+</h:body>
+</html>

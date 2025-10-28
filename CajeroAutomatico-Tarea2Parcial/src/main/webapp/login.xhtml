@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Cajero Automático - Inicio de Sesión</title>
+        <h:outputStylesheet library="css" name="style.css"/>
+    </h:head>
+    <h:body>
+        <div class="container">
+            <h1>Inicio de Sesión</h1>
+            
+            <div class="info-banner">
+                <p class="bank-message">
+                    <strong>Importante:</strong> Solo el banco puede agregar nuevos usuarios al sistema. 
+                    Para poder acceder, visite su banco más cercano.
+                </p>
+            </div>
+            
+            <div class="form-container">
+                <h:form id="loginForm">
+                    <div class="form-group">
+                        <h:outputLabel for="numeroCuenta" value="Número de Cuenta:"/>
+                        <h:inputText id="numeroCuenta" 
+                                   value="#{cajeroBean.numeroCuenta}" 
+                                   required="true"
+                                   requiredMessage="Por favor, ingrese su número de cuenta"
+                                   validatorMessage="El número de cuenta debe tener exactamente 8 dígitos">
+                            <f:validateLength minimum="8" maximum="8"/>
+                            <f:validateRegex pattern="[0-9]{8}"/>
+                            <f:ajax event="blur" render="numeroCuentaError"/>
+                        </h:inputText>
+                        <h:message for="numeroCuenta" id="numeroCuentaError" styleClass="input-error-message"/>
+                    </div>
+
+                    <div class="form-group">
+                        <h:outputLabel for="pin" value="PIN:"/>
+                        <h:inputSecret id="pin" 
+                                     value="#{cajeroBean.pin}" 
+                                     required="true"
+                                     requiredMessage="Por favor, ingrese su PIN"
+                                     validatorMessage="El PIN debe tener exactamente 4 dígitos">
+                            <f:validateLength minimum="4" maximum="4"/>
+                            <f:validateRegex pattern="[0-9]{4}"/>
+                            <f:ajax event="blur" render="pinError"/>
+                        </h:inputSecret>
+                        <h:message for="pin" id="pinError" styleClass="input-error-message"/>
+                    </div>
+
+                    <div class="form-actions">
+                        <h:commandButton value="Ingresar" 
+                                       action="#{cajeroBean.login}" 
+                                       styleClass="button primary"/>
+                    </div>
+
+                    <div class="login-messages">
+                        <h:messages id="loginMessages" 
+                                  globalOnly="true" 
+                                  styleClass="messages-container" 
+                                  errorClass="error-message" 
+                                  infoClass="info-message"/>
+                    </div>
+                </h:form>
+            </div>
+            
+            <div class="help-text">
+                <p>¿Necesita ayuda? Haga clic 
+                    <h:link value="aquí" outcome="ayuda"/> 
+                    para ver instrucciones de uso.</p>
+            </div>
+        </div>
+    </h:body>
+</html>
