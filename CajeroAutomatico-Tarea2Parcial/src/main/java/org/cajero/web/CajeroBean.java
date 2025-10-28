@@ -218,6 +218,11 @@ public class CajeroBean implements Serializable {
             nuevoNumeroCuenta = null;
             nuevoPin = null;
             return "menu?faces-redirect=true";
+        } catch (IllegalArgumentException e) {
+            // Mostrar error específico en el campo nuevoNumeroCuenta
+            FacesContext.getCurrentInstance().addMessage("registrarForm:nuevoNumeroCuenta",
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+            return null;
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
