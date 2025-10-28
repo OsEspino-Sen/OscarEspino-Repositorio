@@ -6,6 +6,63 @@
 <h:head>
     <title>Cajero Automático - Registrar Usuario</title>
     <h:outputStylesheet library="css" name="style.css"/>
+    <script type="text/javascript">
+    <![CDATA[
+        function soloNumeros(event) {
+            var charCode = event.which ? event.which : event.keyCode;
+            // Solo permitir números (0-9), backspace (8), delete (46), tab (9), enter (13)
+            if ((charCode < 48 || charCode > 57) && charCode !== 8 && charCode !== 46 && charCode !== 9 && charCode !== 13) {
+                event.preventDefault();
+                return false;
+            }
+            return true;
+        }
+        
+        function bloquearTodo(input) {
+            // Bloquear en tiempo real
+            input.addEventListener('input', function(e) {
+                var valor = e.target.value;
+                var valorLimpio = valor.replace(/[^0-9]/g, '');
+                if (valor !== valorLimpio) {
+                    e.target.value = valorLimpio;
+                }
+            });
+            
+            // Bloquear pegado
+            input.addEventListener('paste', function(e) {
+                e.preventDefault();
+                var texto = (e.clipboardData || window.clipboardData).getData('text');
+                var textoLimpio = texto.replace(/[^0-9]/g, '');
+                e.target.value = textoLimpio;
+            });
+            
+            // Bloquear teclas
+            input.addEventListener('keydown', function(e) {
+                var charCode = e.which ? e.which : e.keyCode;
+                if ((charCode < 48 || charCode > 57) && charCode !== 8 && charCode !== 46 && charCode !== 9 && charCode !== 13 && charCode !== 37 && charCode !== 38 && charCode !== 39 && charCode !== 40) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+        }
+        
+        // Aplicar bloqueo cuando la página cargue
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                // Buscar campos por ID específico
+                var nuevoNumeroCuenta = document.getElementById('j_idt1:nuevoNumeroCuenta');
+                var nuevoPin = document.getElementById('j_idt1:nuevoPin');
+                
+                if (nuevoNumeroCuenta) {
+                    bloquearTodo(nuevoNumeroCuenta);
+                }
+                if (nuevoPin) {
+                    bloquearTodo(nuevoPin);
+                }
+            }, 100);
+        });
+    ]]>
+    </script>
 </h:head>
 <h:body>
     <div class="container">
@@ -32,9 +89,11 @@
                                value="#{cajeroBean.nuevoNumeroCuenta}" 
                                required="true"
                                requiredMessage="Por favor, ingrese el número de cuenta"
-                               validatorMessage="El número de cuenta debe tener 8 o 10 dígitos"
-                               maxlength="10">
-                        <f:validateRegex pattern="[0-9]{8}|[0-9]{10}"/>
+                               validatorMessage="El número de cuenta debe tener 8 o 10 dígitos numéricos únicamente"
+                               converterMessage="Solo se permiten números en el número de cuenta"
+                               maxlength="10"
+                               >
+                        <f:validateRegex pattern="^[0-9]{8}$|^[0-9]{10}$"/>
                         <f:ajax event="blur" render="nuevoNumeroCuentaError"/>
                     </h:inputText>
                     <h:message for="nuevoNumeroCuenta" id="nuevoNumeroCuentaError" styleClass="input-error-message"/>
@@ -46,9 +105,11 @@
                                value="#{cajeroBean.nuevoPin}" 
                                required="true"
                                requiredMessage="Por favor, ingrese el PIN"
-                               validatorMessage="El PIN debe tener exactamente 4 dígitos"
-                               maxlength="4">
-                        <f:validateRegex pattern="[0-9]{4}"/>
+                               validatorMessage="El PIN debe tener exactamente 4 dígitos numéricos únicamente"
+                               converterMessage="Solo se permiten números en el PIN"
+                               maxlength="4"
+                               >
+                        <f:validateRegex pattern="^[0-9]{4}$"/>
                         <f:ajax event="blur" render="nuevoPinError"/>
                     </h:inputSecret>
                     <h:message for="nuevoPin" id="nuevoPinError" styleClass="input-error-message"/>

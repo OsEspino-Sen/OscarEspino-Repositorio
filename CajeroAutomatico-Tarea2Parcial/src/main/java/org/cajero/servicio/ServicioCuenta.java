@@ -30,6 +30,16 @@ public class ServicioCuenta {
     }
 
     public Optional<Cuenta> validarLogin(String numeroCuenta, String pin) {
+        // Validar que el número de cuenta contenga solo dígitos
+        if (numeroCuenta == null || !numeroCuenta.matches("^[0-9]{8}$|^[0-9]{10}$")) {
+            throw new IllegalArgumentException("El número de cuenta debe contener únicamente 8 o 10 dígitos numéricos");
+        }
+        
+        // Validar que el PIN contenga solo dígitos
+        if (pin == null || !pin.matches("^[0-9]{4}$")) {
+            throw new IllegalArgumentException("El PIN debe contener únicamente 4 dígitos numéricos");
+        }
+        
         Cuenta cuenta = cuentas.get(numeroCuenta);
         if (cuenta != null && cuenta.validarPin(pin)) {
             return Optional.of(cuenta);
@@ -59,6 +69,12 @@ public class ServicioCuenta {
             throw new IllegalArgumentException("Saldo insuficiente");
         }
         
+        // Validar que el monto sea un número válido (sin letras)
+        String montoStr = String.valueOf(monto);
+        if (!montoStr.matches("^[0-9]+(\\.[0-9]{1,2})?$")) {
+            throw new IllegalArgumentException("El monto debe contener únicamente números y un punto decimal opcional");
+        }
+        
         cuenta.setSaldo(cuenta.getSaldo() - monto);
         Transaccion transaccion = new Transaccion(numeroCuenta, TipoTransaccion.RETIRO, monto, "Retiro de efectivo");
         cuenta.agregarTransaccion(transaccion);
@@ -73,6 +89,12 @@ public class ServicioCuenta {
             throw new IllegalArgumentException("El monto debe ser mayor a cero");
         }
 
+        // Validar que el monto sea un número válido (sin letras)
+        String montoStr = String.valueOf(monto);
+        if (!montoStr.matches("^[0-9]+(\\.[0-9]{1,2})?$")) {
+            throw new IllegalArgumentException("El monto debe contener únicamente números y un punto decimal opcional");
+        }
+
         cuenta.setSaldo(cuenta.getSaldo() + monto);
         Transaccion transaccion = new Transaccion(numeroCuenta, TipoTransaccion.DEPOSITO, monto, "Depósito de efectivo");
         cuenta.agregarTransaccion(transaccion);
@@ -81,6 +103,15 @@ public class ServicioCuenta {
     public void transferir(String numeroCuentaOrigen, String numeroCuentaDestino, double monto) {
         if (numeroCuentaOrigen.equals(numeroCuentaDestino)) {
             throw new IllegalArgumentException("No se puede transferir a la misma cuenta");
+        }
+
+        // Validar que los números de cuenta contengan solo dígitos
+        if (numeroCuentaOrigen == null || !numeroCuentaOrigen.matches("^[0-9]{8}$|^[0-9]{10}$")) {
+            throw new IllegalArgumentException("El número de cuenta origen debe contener únicamente 8 o 10 dígitos numéricos");
+        }
+        
+        if (numeroCuentaDestino == null || !numeroCuentaDestino.matches("^[0-9]{8}$|^[0-9]{10}$")) {
+            throw new IllegalArgumentException("El número de cuenta destino debe contener únicamente 8 o 10 dígitos numéricos");
         }
 
         Cuenta cuentaOrigen = cuentas.get(numeroCuentaOrigen);
@@ -96,12 +127,16 @@ public class ServicioCuenta {
             throw new IllegalArgumentException("Saldo insuficiente");
         }
 
-        // Obtener o crear cuenta destino
+        // Validar que el monto sea un número válido (sin letras)
+        String montoStr = String.valueOf(monto);
+        if (!montoStr.matches("^[0-9]+(\\.[0-9]{1,2})?$")) {
+            throw new IllegalArgumentException("El monto debe contener únicamente números y un punto decimal opcional");
+        }
+
+        // Verificar que la cuenta destino existe
         Cuenta cuentaDestino = cuentas.get(numeroCuentaDestino);
         if (cuentaDestino == null) {
-            // Crear cuenta destino si no existe (para permitir transferir a cualquier cuenta)
-            cuentaDestino = new Cuenta(numeroCuentaDestino, "0000", 0.0);
-            cuentas.put(numeroCuentaDestino, cuentaDestino);
+            throw new IllegalArgumentException("La cuenta destino no existe. Solo se pueden realizar transferencias a cuentas registradas en el sistema.");
         }
 
         // Realizar la transferencia

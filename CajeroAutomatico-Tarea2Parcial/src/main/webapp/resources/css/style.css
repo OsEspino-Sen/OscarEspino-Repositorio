@@ -1,4 +1,4 @@
-/* Variables para temas */
+/* Variables de diseño */
 :root {
     --primary-color: #1976d2;
     --secondary-color: #424242;
@@ -14,18 +14,6 @@
     --bank-color: #2e7d32;
     --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     --gradient-success: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-}
-
-/* Tema oscuro */
-.dark-theme {
-    --primary-color: #90caf9;
-    --secondary-color: #b0bec5;
-    --background-color: #121212;
-    --text-color: #ffffff;
-    --error-color: #ef5350;
-    --success-color: #66bb6a;
-    --border-color: #424242;
-    --shadow-color: rgba(255, 255, 255, 0.1);
 }
 
 /* Estilos generales */
@@ -214,11 +202,15 @@ h2 {
 }
 
 .input-error-message {
-    color: #d32f2f;
-    font-size: 0.8rem;
-    margin-top: 0.25rem;
-    padding-left: 0.5rem;
-    display: block;
+    color: #d32f2f !important;
+    font-size: 0.85rem !important;
+    margin-top: 0.5rem !important;
+    padding: 0.5rem !important;
+    background-color: #ffebee !important;
+    border-left: 3px solid #d32f2f !important;
+    border-radius: 4px !important;
+    display: block !important;
+    font-weight: 500 !important;
 }
 
 .login-messages {
@@ -335,6 +327,38 @@ h2 {
 
 .form-actions {
     margin-bottom: 1rem;
+}
+
+/* Información de Autores del Proyecto */
+.project-authors {
+    text-align: center !important;
+    padding: 1rem 2rem !important;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e8eaf6 100%) !important;
+    border-radius: 12px !important;
+    margin-bottom: 1.5rem !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05) !important;
+}
+
+.author-info {
+    display: inline-block !important;
+    margin: 0 1.5rem !important;
+    font-size: 0.85rem !important;
+    color: var(--text-secondary) !important;
+}
+
+.author-name {
+    font-weight: 600 !important;
+    color: var(--text-color) !important;
+}
+
+.author-separator {
+    margin: 0 0.5rem !important;
+    color: var(--text-secondary) !important;
+}
+
+.author-account {
+    color: var(--text-secondary) !important;
+    font-family: monospace !important;
 }
 
 /* Menú Header */
@@ -546,37 +570,41 @@ h2 {
 .login-footer-info {
     margin-top: 3rem;
     padding-top: 2rem;
+    display: flex;
+    justify-content: center;
 }
 
 .info-box {
     background: linear-gradient(135deg, #fff3cd 0%, #ffe082 100%);
     border-left: 5px solid #fbc02d;
     border-radius: 12px;
-    padding: 2rem;
+    padding: 1.5rem;
     display: flex;
     align-items: center;
     gap: 1.5rem;
     box-shadow: 0 4px 15px rgba(251, 192, 45, 0.2);
     margin-bottom: 1rem;
+    max-width: 500px;
+    width: 100%;
 }
 
 .info-icon {
-    font-size: 3rem;
+    font-size: 2.5rem;
     flex-shrink: 0;
 }
 
 .info-content h3 {
     margin: 0 0 0.5rem 0;
     color: #856404;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 600;
 }
 
 .info-content p {
     margin: 0;
     color: #856404;
-    font-size: 1rem;
-    line-height: 1.6;
+    font-size: 0.9rem;
+    line-height: 1.5;
 }
 
 .help-link {
@@ -586,14 +614,19 @@ h2 {
     margin-top: 1rem;
 }
 
+.help-link p {
+    margin: 0;
+}
+
 .help-link a {
-    color: var(--primary-color);
-    text-decoration: none;
-    font-weight: 600;
+    color: var(--primary-color) !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    margin-left: 0.5rem !important;
 }
 
 .help-link a:hover {
-    text-decoration: underline;
+    text-decoration: underline !important;
 }
 
 /* Responsive */

@@ -15,7 +15,7 @@ public class Transaccion {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
     public Transaccion(String numeroCuenta, TipoTransaccion tipo, double monto, String descripcion) {
-        this.id = System.currentTimeMillis(); // Simulación de ID único
+        this.id = Long.valueOf(System.currentTimeMillis()); // Simulación de ID único
         this.numeroCuenta = numeroCuenta;
         this.tipo = tipo;
         this.monto = monto;
@@ -75,5 +75,10 @@ public class Transaccion {
             return "";
         }
         return fecha.format(FORMATTER);
+    }
+    
+    // Method to get id as String for JSF compatibility
+    public String getIdAsString() {
+        return id != null ? id.toString() : "";
     }
 }

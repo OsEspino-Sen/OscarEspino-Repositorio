@@ -64,13 +64,13 @@ public class CajeroBean implements Serializable {
     public String retirar() {
         try {
             servicioCuenta.retirar(cuentaActual.getNumeroCuenta(), monto);
-            FacesContext.getCurrentInstance().addMessage(null,
+            FacesContext.getCurrentInstance().addMessage("retiroForm",
                 new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Retiro realizado con éxito"));
             monto = 0;
             return "menu?faces-redirect=true";
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+            FacesContext.getCurrentInstance().addMessage("retiroForm",
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al retirar", e.getMessage()));
             return null;
         }
     }
@@ -79,13 +79,13 @@ public class CajeroBean implements Serializable {
     public String depositar() {
         try {
             servicioCuenta.depositar(cuentaActual.getNumeroCuenta(), monto);
-            FacesContext.getCurrentInstance().addMessage(null,
+            FacesContext.getCurrentInstance().addMessage("depositoForm",
                 new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Depósito realizado con éxito"));
             monto = 0;
             return "menu?faces-redirect=true";
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+            FacesContext.getCurrentInstance().addMessage("depositoForm",
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al depositar", e.getMessage()));
             return null;
         }
     }
@@ -94,14 +94,14 @@ public class CajeroBean implements Serializable {
     public String transferir() {
         try {
             servicioCuenta.transferir(cuentaActual.getNumeroCuenta(), cuentaDestino, monto);
-            FacesContext.getCurrentInstance().addMessage(null,
+            FacesContext.getCurrentInstance().addMessage("transferForm",
                 new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Transferencia realizada con éxito"));
             monto = 0;
             cuentaDestino = null;
             return "menu?faces-redirect=true";
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+            FacesContext.getCurrentInstance().addMessage("transferForm",
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error en transferencia", e.getMessage()));
             return null;
         }
     }

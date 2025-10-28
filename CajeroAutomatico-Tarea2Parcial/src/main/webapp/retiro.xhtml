@@ -7,6 +7,67 @@
 <h:head>
     <title>Cajero Automático - Retiro de Efectivo</title>
     <h:outputStylesheet library="css" name="style.css"/>
+    <script type="text/javascript">
+    <![CDATA[
+        function soloNumerosConDecimal(event) {
+            var charCode = event.which ? event.which : event.keyCode;
+            // Permitir números (0-9), punto decimal (46), backspace (8), delete (46), tab (9), enter (13)
+            if ((charCode < 48 || charCode > 57) && charCode !== 46 && charCode !== 8 && charCode !== 9 && charCode !== 13) {
+                event.preventDefault();
+                return false;
+            }
+            return true;
+        }
+        
+        function bloquearConDecimal(input) {
+            // Bloquear en tiempo real
+            input.addEventListener('input', function(e) {
+                var valor = e.target.value;
+                var valorLimpio = valor.replace(/[^0-9.]/g, '');
+                // Evitar múltiples puntos decimales
+                var partes = valorLimpio.split('.');
+                if (partes.length > 2) {
+                    valorLimpio = partes[0] + '.' + partes.slice(1).join('');
+                }
+                if (valor !== valorLimpio) {
+                    e.target.value = valorLimpio;
+                }
+            });
+            
+            // Bloquear pegado
+            input.addEventListener('paste', function(e) {
+                e.preventDefault();
+                var texto = (e.clipboardData || window.clipboardData).getData('text');
+                var textoLimpio = texto.replace(/[^0-9.]/g, '');
+                var partes = textoLimpio.split('.');
+                if (partes.length > 2) {
+                    textoLimpio = partes[0] + '.' + partes.slice(1).join('');
+                }
+                e.target.value = textoLimpio;
+            });
+            
+            // Bloquear teclas
+            input.addEventListener('keydown', function(e) {
+                var charCode = e.which ? e.which : e.keyCode;
+                if ((charCode < 48 || charCode > 57) && charCode !== 46 && charCode !== 8 && charCode !== 9 && charCode !== 13 && charCode !== 37 && charCode !== 38 && charCode !== 39 && charCode !== 40) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+        }
+        
+        // Aplicar bloqueo cuando la página cargue
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                // Buscar campo de monto por ID específico
+                var monto = document.getElementById('retiroForm:monto');
+                if (monto) {
+                    bloquearConDecimal(monto);
+                }
+            }, 100);
+        });
+    ]]>
+    </script>
 </h:head>
 <h:body>
     <div class="container">
@@ -20,14 +81,18 @@
         </div>
         
         <div class="form-container">
-            <h:form>
+            <h:form id="retiroForm">
                 <div class="form-group">
                     <h:outputLabel for="monto" value="Monto a retirar:"/>
-                    <h:inputText id="monto" value="#{cajeroBean.monto}" 
-                               required="true"
-                               requiredMessage="Por favor, ingrese el monto a retirar"
-                               validatorMessage="El monto debe ser mayor a 0 y no exceder el saldo disponible">
-                        <f:validateDoubleRange minimum="1" maximum="#{cajeroBean.cuentaActual.saldo}"/>
+                        <h:inputText id="monto" 
+                                   value="#{cajeroBean.monto}" 
+                                   required="true"
+                                   requiredMessage="Por favor, ingrese el monto a retirar"
+                                   validatorMessage="El monto debe ser mayor a 0 y no exceder el saldo disponible"
+                                   converterMessage="El monto debe ser un número válido. Ejemplo: 100.50"
+                                   maxlength="10"
+                                   >
+                        <f:validateDoubleRange minimum="0.01" maximum="#{cajeroBean.cuentaActual.saldo}"/>
                         <f:convertNumber type="number" pattern="#0.00"/>
                         <f:ajax event="blur" render="montoError"/>
                     </h:inputText>
@@ -40,6 +105,8 @@
                                    onclick="return confirm('¿Está seguro que desea retirar este monto?')"/>
                     <h:button value="Cancelar" outcome="menu" styleClass="button secondary"/>
                 </div>
+                
+                <h:messages for="retiroForm" errorClass="input-error-message" style="display: block; margin-top: 1rem;"/>
             </h:form>
         </div>
     </div>
